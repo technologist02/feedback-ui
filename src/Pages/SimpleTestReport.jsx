@@ -258,5 +258,4 @@ export const SimpleTestReport = () => {
             </button>
         </div>) : <div>loading</div>
     );
-    
 };
