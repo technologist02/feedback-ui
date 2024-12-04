@@ -16,13 +16,31 @@ export const SimpleTestReport = () => {
         setQuestion({ ...questions, ...value });
     };
 
+    const validate = () => {
+        const errors = [];
+        if(questions.parametersChanged === "") {
+            errors.push(6)
+        }
+        if(questions.parametersChanged === "Yes" & questions.changes === "") {
+            errors.push(6.1)
+        }
+        if(questions.isSuccess === "") {
+            errors.push(9)
+        }
+        if (errors.length !== 0) {
+            alert(`Ответьте на вопросы ${errors.join(", ")}`)
+            return false;
+        }
+        return true;
+    }
+
     const getData = async (id) => {
         const response = await client.get(API_URL + id);
-        //console.log(response)
         return response.data;
     };
 
     const postData = async (questions) => {
+        if(!validate()) return; 
         setLoad(true);
         const response = await client.patch(API_URL, questions);
         console.log(response);
@@ -39,13 +57,12 @@ export const SimpleTestReport = () => {
     useEffect(() => {
         id &&
             getData(id).then((data) => {
-                // console.log(data)
                 setQuestion(data);
                 setLoad(false);
             });
     }, []);
 
-    // console.log(id)
+    
     return !loading ? (
         answerIsSuccess ? (
             <Notification returnFunc={returnFunc} />
@@ -56,7 +73,7 @@ export const SimpleTestReport = () => {
                 <form className="form-horizontal" method="post">
                     <div className="mb-3">
                         <label htmlFor="client" className="form-label">
-                            Клиент
+                            1. Клиент
                         </label>
                         <input
                             type="text"
@@ -72,7 +89,7 @@ export const SimpleTestReport = () => {
                     </div>
                     <div className="mb-3">
                         <label htmlFor="material" className="form-label">
-                            Материал для тестирования
+                            2. Материал для тестирования
                         </label>
                         <input
                             type="text"
@@ -88,7 +105,7 @@ export const SimpleTestReport = () => {
                     </div>
                     <div className="mb-3">
                         <label htmlFor="date" className="form-label">
-                            Дата тестирования
+                            3. Дата тестирования
                         </label>
                         <input
                             type="date"
@@ -105,7 +122,7 @@ export const SimpleTestReport = () => {
                             htmlFor="incoming-inspection-method"
                             className="form-label"
                         >
-                            Методика входного контроля материала
+                            4. Методика входного контроля материала
                         </label>
                         <textarea
                             className="form-control border border-primary-subtle"
@@ -124,7 +141,7 @@ export const SimpleTestReport = () => {
                             htmlFor="incoming-inspection-results"
                             className="form-label"
                         >
-                            Результаты входного контроля материала
+                            5. Результаты входного контроля материала
                         </label>
                         <textarea
                             className="form-control border border-primary-subtle"
@@ -139,7 +156,7 @@ export const SimpleTestReport = () => {
                         ></textarea>
                     </div>
                     <div className="mb-3">
-                        <p>Изменялись ли параметры настройки оборудования?</p>
+                        <p>6. Изменялись ли параметры настройки оборудования?</p>
                         <div className="form-check form-check-inline">
                             <input
                                 className="form-check-input border border-primary-subtle"
@@ -185,7 +202,7 @@ export const SimpleTestReport = () => {
                         {questions.parametersChanged === "Yes" && (
                             <div className="mb-3">
                                 <label htmlFor="changes" className="form-label">
-                                    Если изменялись то какие?
+                                    6.1 Если изменялись то какие?
                                 </label>
                                 <textarea
                                     className="form-control border border-primary-subtle"
@@ -206,7 +223,7 @@ export const SimpleTestReport = () => {
                             htmlFor="output-inspection-method"
                             className="form-label"
                         >
-                            Методика контроля готовой продукции
+                            7. Методика контроля готовой продукции
                         </label>
                         <textarea
                             className="form-control border border-primary-subtle"
@@ -225,7 +242,7 @@ export const SimpleTestReport = () => {
                             htmlFor="output-inspection-results"
                             className="form-label"
                         >
-                            Результаты контроля готовой продукции
+                            8. Результаты контроля готовой продукции
                         </label>
                         <textarea
                             className="form-control border border-primary-subtle"
@@ -239,7 +256,7 @@ export const SimpleTestReport = () => {
                             }
                         ></textarea>
                     </div>
-                    <p>Испытания прошли успешно?</p>
+                    <p>9. Испытания прошли успешно?</p>
                     <div className="form-check form-check-inline">
                         <input
                             className="form-check-input border border-primary-subtle"
