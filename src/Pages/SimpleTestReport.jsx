@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { API_URL } from "../api";
 import { client } from "../axios/client";
 import { Notification } from "../Components/Notification";
+import { Preloader } from "../Components/Preloader";
 
 export const SimpleTestReport = () => {
     const { id } = useParams();
@@ -22,11 +23,13 @@ export const SimpleTestReport = () => {
     };
 
     const postData = async (questions) => {
+        setLoad(true);
         const response = await client.patch(API_URL, questions)
         console.log(response)
         if (response.status === 200) {
             returnFunc();
         }
+        setLoad(false);
     }
 
     const returnFunc = () => {
@@ -256,6 +259,6 @@ export const SimpleTestReport = () => {
             <button type="button" onClick={() => postData(questions)} className="btn btn-primary">
                 Отправить
             </button>
-        </div>) : <div>loading</div>
+        </div>) : <Preloader/>
     );
 };

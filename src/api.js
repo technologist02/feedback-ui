@@ -1,3 +1,3 @@
-const API_URL = `http://109.196.102.179:3000/api/FeedbackValidation/`;
+const API_URL = `https://technologist02.ru:3001/api/FeedbackValidation/`;
 
 export {API_URL};
