@@ -1,5 +1,3 @@
-import { NavLink } from "react-router-dom"
-//import logo from "../"; // Путь к вашему изображению
 import logo from "../gpa-logo.png"
 
 export const Header = () => {
